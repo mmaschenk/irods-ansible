@@ -1,20 +1,20 @@
-- name: irods db user
+- name: "irods db user: {{dbuser}}"
   postgresql_user:
-    name: irods
-    password: testpassword
+    name: "{{dbuser}}"
+    password: "{{dbpassword}}"
   become: yes
   become_user: postgres
-- name: irods database
+- name: "irods database: {{dbname}}"
   postgresql_db:
-    name: ICAT
-    owner: irods
+    name: "{{dbname}}"
+    owner: "{{dbuser}}"
   become: yes
   become_user: postgres
 - name: irods db grants
   postgresql_privs:
-    db: ICAT
+    db: "{{dbname}}"
     privs: ALL
-    roles: irods
+    roles: "{{dbuser}}"
     type: database
   become: yes
   become_user: postgres

@@ -1,0 +1,3 @@
+dbuser: irods
+dbpassword: testpassword
+dbname: ICAT
