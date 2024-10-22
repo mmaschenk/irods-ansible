@@ -1,0 +1,20 @@
+- name: irods db user
+  postgresql_user:
+    name: irods
+    password: testpassword
+  become: yes
+  become_user: postgres
+- name: irods database
+  postgresql_db:
+    name: ICAT
+    owner: irods
+  become: yes
+  become_user: postgres
+- name: irods db grants
+  postgresql_privs:
+    db: ICAT
+    privs: ALL
+    roles: irods
+    type: database
+  become: yes
+  become_user: postgres

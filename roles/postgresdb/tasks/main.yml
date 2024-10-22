@@ -2,3 +2,8 @@
   package:
     name:
       - postgresql
+      - python3-psycopg2
+- name: run postgres
+  service:
+    name: postgresql
+    state: started
