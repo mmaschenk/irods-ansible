@@ -1,0 +1,4 @@
+- name: install irods and a postgres database
+  hosts: localhost
+  roles:
+    - postgresdb
