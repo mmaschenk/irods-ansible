@@ -2,4 +2,5 @@ dbuser: irods
 dbpassword: testpassword
 dbname: ICAT
 irods_json: /tmp/irods.json
-irods_zonename: tud-dev
+irods_zonename: tuddev
+irods_defaultresc: defaultResc

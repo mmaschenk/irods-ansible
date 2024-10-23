@@ -35,7 +35,7 @@
 - name: "create setup content"
   set_fact:
     content: |
-      # A comment line
+      
       {
         "admin_password": "rods",
         "default_resource_directory": "/var/lib/irods/Vault",
@@ -57,7 +57,7 @@
           "irods_encryption_num_hash_rounds": 16,
           "irods_encryption_salt_size": 8,
           "irods_home": "/{{irods_zonename}}/home/rods",
-          "irods_host": "irods-provider",
+          "irods_host": "{{ ansible_hostname }}",
           "irods_match_hash_policy": "compatible",
           "irods_maximum_size_for_single_buffer_in_megabytes": 32,
           "irods_port": 1247,
@@ -77,7 +77,7 @@
             "default_number_of_transfer_threads": 4,
             "default_temporary_password_lifetime_in_seconds": 120,
             "delay_rule_executors": [
-              "irods-provider"
+              "{{ ansible_hostname }}"
             ],
             "delay_server_sleep_time_in_seconds": 30,
             "dns_cache": {
@@ -97,7 +97,7 @@
             "transfer_chunk_size_for_parallel_transfer_in_megabytes": 40
           },
           "catalog_provider_hosts": [
-            "irods-provider"
+            "{{ ansible_hostname }}"
           ],
           "catalog_service_role": "provider",
           "client_api_allowlist_policy": "enforce",
@@ -108,7 +108,7 @@
           "default_dir_mode": "0750",
           "default_file_mode": "0600",
           "default_hash_scheme": "SHA256",
-          "default_resource_name": "demoResc",
+          "default_resource_name": "{{ irods_defaultresc }}",
           "environment_variables": {},
           "federation": [],
           "host_access_control": {
@@ -138,12 +138,12 @@
             "authentication": {},
             "database": {
               "postgres": {
-                "db_host": "catalog",
-                "db_name": "ICAT",
+                "db_host": "localhost",
+                "db_name": "{{ dbname }}",
                 "db_odbc_driver": "PostgreSQL ANSI",
-                "db_password": "testpassword",
+                "db_password": "{{ dbpassword }}",
                 "db_port": 5432,
-                "db_username": "irods"
+                "db_username": "{{ dbuser }}"
               }
             },
             "network": {},
@@ -198,10 +198,11 @@
           "zone_user": "rods"
         }
       }
-- name: "clean up content"
-  set_fact:
-    pruned_content: "{{ content | splitlines()[1:] }}"
 - name: "create setup json: {{irods_json}}"
   copy:
-    content: "{{ pruned_content }}"
+    content: "{{ content }}"
     dest: "{{irods_json}}"
+- name: "run irods setup"
+  command: 
+    cmd: "python3 /var/lib/irods/scripts/setup_irods.py --json_configuration_file {{ irods_json }}"
+    creates: /var/lib/irods/.irods/irods_environment.json
