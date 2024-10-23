@@ -1,0 +1,20 @@
+- name: install irods test user and resources
+  hosts: localhost
+  become: yes
+  become_user: irods
+  tasks:
+  - name: user
+    command: iadmin mkuser simpleuser rodsuser
+    ignore_errors: yes
+  - name: password
+    command: iadmin moduser simpleuser password test12
+  - name: data directory
+    file:
+      path: /var/lib/irods/data
+      state: directory
+  - name: resource 1
+    command: iadmin mkresc data1Resc unixfilesystem tudelft:/var/lib/irods/data/data1
+    ignore_errors: yes
+  - name: resource 2
+    command: iadmin mkresc data2Resc unixfilesystem tudelft:/var/lib/irods/data/data2
+    ignore_errors: yes
