@@ -7,5 +7,5 @@
         name:
         - acl
   roles:
-    - irods
+    - { name: irods, become: yes }
   
