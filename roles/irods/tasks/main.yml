@@ -2,12 +2,14 @@
   postgresql_user:
     name: "{{dbuser}}"
     password: "{{dbpassword}}"
+    port: "{{postgresql_port}}"
   become: yes
   become_user: postgres
 - name: "irods database: {{dbname}}"
   postgresql_db:
     name: "{{dbname}}"
     owner: "{{dbuser}}"
+    port: "{{postgresql_port}}"
   become: yes
   become_user: postgres
 - name: irods db grants
@@ -16,6 +18,7 @@
     privs: ALL
     roles: "{{dbuser}}"
     type: database
+    port: "{{postgresql_port}}"
   become: yes
   become_user: postgres
 - name: Add source repository into sources list
