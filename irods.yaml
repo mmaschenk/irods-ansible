@@ -1,5 +1,11 @@
 - name: install irods and a postgres database
   hosts: localhost
+  become: yes
+  pre_tasks:
+    - name: install acl
+      package:
+        name:
+        - acl
   roles:
     - irods
   

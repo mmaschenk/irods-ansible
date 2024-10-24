@@ -3,18 +3,18 @@
   become: yes
   become_user: irods
   tasks:
-  - name: user
+  - name: "user: simpleuser"
     command: iadmin mkuser simpleuser rodsuser
     ignore_errors: yes
-  - name: password
+  - name: "password: test12"
     command: iadmin moduser simpleuser password test12
-  - name: data directory
+  - name: "data directory: /var/lib/irods/data"
     file:
       path: /var/lib/irods/data
       state: directory
-  - name: resource 1
+  - name: "resource 1: data1Resc"
     command: iadmin mkresc data1Resc unixfilesystem tudelft:/var/lib/irods/data/data1
     ignore_errors: yes
-  - name: resource 2
+  - name: "resource 2: data2Resc"
     command: iadmin mkresc data2Resc unixfilesystem tudelft:/var/lib/irods/data/data2
     ignore_errors: yes

@@ -206,3 +206,8 @@
   command: 
     cmd: "python3 /var/lib/irods/scripts/setup_irods.py --json_configuration_file {{ irods_json }}"
     creates: /var/lib/irods/.irods/irods_environment.json
+- name: run irods
+  service:
+    name: irods
+    state: started
+
